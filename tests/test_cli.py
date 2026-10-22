@@ -33,6 +33,7 @@ def test_cli_setup_accounts_and_serve(tmp_path, monkeypatch):
         "host": "127.0.0.1",
         "port": 8883,
         "access_log": False,
+        "proxy_headers": False,
         "limit_concurrency": 24,
     }
     monkeypatch.setattr(sys, "argv", ["workbench", "--db", str(path), "serve", "--port", "80"])

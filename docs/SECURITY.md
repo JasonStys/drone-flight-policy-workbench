@@ -2,6 +2,8 @@
 
 Jason Stys: assets, explicit organizational trust, controls and residual risks.
 
+Both supported local launchers explicitly set `proxy_headers=False`. There is no reverse proxy, so forwarded address/protocol headers are not trusted and cannot rotate the direct-client login throttle. A real socket/HTTP regression verifies this behavior, in addition to the CLI argument check.
+
 Assets: local account/password hashes, sessions, policy integrity, staff evidence, review/audit history and exports. Trust the workstation/OS/database owner, reviewed source/locks, official pinned OPA bytes and explicitly provisioned organizational administrators/reviewers. Operators are not trusted to inspect other operators' evidence or change policy. No role is trusted to turn an application acknowledgement into flight permission.
 
 | Threat | Implemented control / evidence |

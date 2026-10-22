@@ -146,11 +146,22 @@ Python/TypeScript ASTs index declarations, parameters and bindings. Rego lists r
 | `tests/test_api_store.py` | 372 | `identifier` |
 | `tests/test_api_store.py` | 373 | `db` |
 | `tests/test_api_store.py` | 379 | `test_origin_port_validation()` |
-| `tests/test_auth_capacity.py` | 10 | `test_verification_capacity_and_unknown_dummy(tmp_path)` |
-| `tests/test_auth_capacity.py` | 12 | `app` |
-| `tests/test_auth_capacity.py` | 14 | `value` |
-| `tests/test_auth_capacity.py` | 18 | `response` |
-| `tests/test_auth_capacity.py` | 27 | `response` |
+| `tests/test_auth_capacity.py` | 16 | `test_verification_capacity_and_unknown_dummy(tmp_path)` |
+| `tests/test_auth_capacity.py` | 18 | `app` |
+| `tests/test_auth_capacity.py` | 20 | `value` |
+| `tests/test_auth_capacity.py` | 24 | `response` |
+| `tests/test_auth_capacity.py` | 33 | `response` |
+| `tests/test_auth_capacity.py` | 43 | `test_real_server_forwarded_addresses_do_not_bypass_throttle(tmp_path)` |
+| `tests/test_auth_capacity.py` | 45 | `listener` |
+| `tests/test_auth_capacity.py` | 47 | `port` |
+| `tests/test_auth_capacity.py` | 48 | `origin` |
+| `tests/test_auth_capacity.py` | 49 | `app` |
+| `tests/test_auth_capacity.py` | 50 | `server` |
+| `tests/test_auth_capacity.py` | 60 | `thread` |
+| `tests/test_auth_capacity.py` | 63 | `deadline` |
+| `tests/test_auth_capacity.py` | 67 | `value` |
+| `tests/test_auth_capacity.py` | 68 | `n` |
+| `tests/test_auth_capacity.py` | 69 | `response` |
 | `tests/test_cli.py` | 11 | `test_cli_setup_accounts_and_serve(tmp_path, monkeypatch)` |
 | `tests/test_cli.py` | 13 | `path` |
 | `tests/test_cli.py` | 17 | `answers` |

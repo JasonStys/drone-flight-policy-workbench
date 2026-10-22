@@ -42,6 +42,7 @@ def main():
             host="127.0.0.1",
             port=args.port,
             access_log=False,
+            proxy_headers=False,
             limit_concurrency=24,
         )
 

@@ -38,7 +38,13 @@ def main():
     parser.add_argument("--port", type=int, default=8882)
     args = parser.parse_args()
     db = prepare(args.directory)
-    uvicorn.run(create_app(db, args.port), host="127.0.0.1", port=args.port, access_log=False)
+    uvicorn.run(
+        create_app(db, args.port),
+        host="127.0.0.1",
+        port=args.port,
+        access_log=False,
+        proxy_headers=False,
+    )
 
 
 if __name__ == "__main__":

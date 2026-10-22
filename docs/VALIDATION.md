@@ -11,7 +11,7 @@ Jason Stys: measured execution evidence, scope limits and transparent hosted ver
 Windows 11 build 26300, Python 3.14.6, Node.js 24.18.1, checksum-verified official OPA 1.21.3. Actual OPA and SQLite are used in oracle/API/browser tests; no mocked success replaces them.
 
 - Native Rego format/strict compile/four decision-table groups passed; measured100% line coverage for both production policy and test file, unchanged90% gate. No branch-coverage claim.
-- Python:83 tests passed;98.71% branch-aware package coverage (472 statements/148 branches; 3 statements and 5 partial branches missed). Unchanged90% gate. Authentication and persistence modules measured100% in this run; package percentage includes the CLI. One visible Starlette test-client deprecation warning, no skipped tests.
+- Python: 84 tests passed; 98.71% branch-aware package coverage (472 statements/148 branches; 3 statements and 5 partial branches missed). Unchanged 90% gate. Authentication and persistence modules measured 100% in this run; package percentage includes the CLI. One visible Starlette test-client deprecation warning, no skipped tests.
 - Independent seeded oracle runs100 varied actual OPA evaluations plus explicit edge/boundary cases.
 - TypeScript helpers:6 tests pass;100% statements/branches/functions/lines (6 statements/6 branches/5functions/6lines). DOM controller excluded from that helper denominator; browser journeys exercise it.
 - Browser:12 actual-service journeys across Chromium/Firefox/WebKit/mobile passed, including successful independent acknowledgement, stale/blocked refusal, exports, invalidation and paused-then-forwarded real request races; no retries.
@@ -25,11 +25,12 @@ Omitted operation context staysUNKNOWN. Every supplied claim is considered; cont
 
 ## Hosted status
 
-Reviewed implementation **`bdab705166e8e858cda24b92afeaae74eeca61ff`**:
+Reviewed baseline implementation **`bdab705166e8e858cda24b92afeaae74eeca61ff`**:
 
 - [Validation 39722371377](https://github.com/JasonStys/drone-flight-policy-workbench/actions/runs/39722371377): **all five jobs passed** — Ubuntu 24.04/Python 3.12, Ubuntu 24.04/Python 3.14, Windows/Python 3.14, macOS/Python 3.14, and actual OPA-backed Chromium/Firefox/WebKit/mobile browser acceptance. No failed or skipped jobs, coverage reductions or retries-to-green.
 - [CodeQL 39722371320](https://github.com/JasonStys/drone-flight-policy-workbench/actions/runs/39722371320): **both Python and JavaScript/TypeScript security-and-quality jobs passed**; zero open code-scanning alerts when checked. Rego is covered by strict/native/oracle checks, not these CodeQL jobs.
-- Main and origin/main matched the reviewed implementation. This subsequent documentation-only commit records the immutable run links, proofreads the guides, and is also subject to the same tests. The [latest main-branch runs](https://github.com/JasonStys/drone-flight-policy-workbench/actions?query=branch%3Amain) show its final status without pretending a run can contain its own future ID.
+- The baseline and first documentation commit also passed [Validation 39722690928](https://github.com/JasonStys/drone-flight-policy-workbench/actions/runs/39722690928) and [CodeQL 39722690948](https://github.com/JasonStys/drone-flight-policy-workbench/actions/runs/39722690948).
+- Final launcher hardening explicitly disables Uvicorn forwarded-header trust (there is no proxy in this local architecture). A real Uvicorn/socket/HTTP regression submits 21 login attempts with distinct forged forwarded addresses: the first 20 receive 401 and the last 429, proving the direct-client throttle cannot be rotated through those headers. Local full-suite result is the 84-test count above. CLI arguments and the demo/browser launcher use the same setting. The [latest main-branch runs](https://github.com/JasonStys/drone-flight-policy-workbench/actions?query=branch%3Amain) verify this final source/report commit without pretending a run can contain its own future ID.
 
 Storage recheck 2026-10-21T21:27:22-07:00: 100 repositories; still 62,959,952 live artifact bytes and 8,185,324,614 separate cache bytes. Quota percentage unavailable. This repository's APIs returned **0 artifacts / 0 bytes** and **0 caches / 0 bytes**. Nothing deleted, archived, retention-adjusted or billed through a new hosting service.
 

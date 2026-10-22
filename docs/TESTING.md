@@ -2,6 +2,8 @@
 
 Jason Stys: risk-based independent tests, real services and unweakened gates.
 
+An additional real Uvicorn/loopback HTTP test varies forged `X-Forwarded-For` values across 21 requests and verifies that the actual direct-client limit still blocks the 21st attempt. No HTTP mock is used; the temporary listener is stopped and joined after the test. Both launchers disable proxy-header trust, and the CLI test asserts that setting.
+
 Highest risks: false positive assurance, stale policy sign-off, type/unit confusion, missing/conflicting evidence, unauthorized report access, privilege escalation, input execution, snapshot corruption and inaccurate validation claims.
 
 | Layer | Evidence |
