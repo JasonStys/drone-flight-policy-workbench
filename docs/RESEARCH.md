@@ -1,0 +1,13 @@
+# Primary research and implementation consequences
+
+Jason Stys: references accessed2026-10-22UTC; background for a synthetic lab, not legal advice or certification.
+
+- [FAA LAANC](https://www.faa.gov/uas/getting_started/laanc): actual airspace authorization is handled through official processes/services. The application records claimed evidence and research links only; it does not issue or independently validate permission.
+- [FAA Remote ID](https://www.faa.gov/uas/getting_started/remote_id): applicability and compliance pathways need contextual review. The example asks whether applicability was reviewed, not a simplistic assumption that every case needs identical hardware. No Remote ID broadcast/reception or identity lookup is implemented.
+- [NTIA UAS multistakeholder process](https://www.ntia.gov/other-publication/2016/multistakeholder-process-unmanned-aircraft-systems): voluntary privacy/transparency/accountability practices inform minimization, sharing and retention review. These are not encoded as universal legal requirements. The direct blog returned403 to this research client; the primary NTIA process/library material was used instead.
+- [OPA policy language](https://www.openpolicyagent.org/docs/policy-language): declarative rules separate typed data from decisions; unknown facts must not silently become truth. The implementation preserves requires-review states and accepts only data-only configuration, never uploaded Rego.
+- [OPA testing](https://www.openpolicyagent.org/docs/policy-testing) and [CLI](https://www.openpolicyagent.org/docs/cli): native decision tables, strict checking and coverage thresholds complement independent oracle comparisons. Actual OPA is required locally and in CI.
+- [OPA official1.21.3 release](https://github.com/open-policy-agent/opa/releases/tag/v1.21.3): platform-specific SHA256 release asset digests are pinned in`tools/fetch_opa.py` and checked before execution. No floating latest runtime download or remote evaluation is used.
+- [OSV source scan](https://google.github.io/osv-scanner/usage/scan-source): explicit npm lock input and all-packages JSON enable independent audit completeness checks. No missing inventory or unavailable advisory service is called a clean result.
+
+Original scenario values, organization limits, staff accounts and claimed records are synthetic. No real pilots/people, approval documents, private flight logs, geographic positions, employer data, surveillance or restricted datasets are included. Public source citations do not imply FAA/NTIA/OPA/employer endorsement or comprehensive regulatory coverage.

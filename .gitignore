@@ -1,0 +1,16 @@
+# Jason Stys: keep credentials, sessions, DBs, vendor tools and generated output private/local.
+.venv/
+.runtime/
+node_modules/
+dist/
+coverage/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage*
+test-results/
+playwright-report/
+*.sqlite3
+*.sqlite3-*
+*.db
+*.log
