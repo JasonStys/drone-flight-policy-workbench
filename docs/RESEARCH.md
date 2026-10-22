@@ -1,6 +1,6 @@
 # Primary research and implementation consequences
 
-Jason Stys: references accessed2026-10-22UTC; background for a synthetic lab, not legal advice or certification.
+Jason Stys: references accessed 2026-10-22UTC; background for a synthetic lab, not legal advice or certification.
 
 - [FAA LAANC](https://www.faa.gov/uas/getting_started/laanc): actual airspace authorization is handled through official processes/services. The application records claimed evidence and research links only; it does not issue or independently validate permission.
 - [FAA Remote ID](https://www.faa.gov/uas/getting_started/remote_id): applicability and compliance pathways need contextual review. The example asks whether applicability was reviewed, not a simplistic assumption that every case needs identical hardware. No Remote ID broadcast/reception or identity lookup is implemented.

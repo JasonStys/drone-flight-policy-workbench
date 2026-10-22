@@ -10,7 +10,7 @@ Administrators publish data-only policy versions with compare-and-swap against t
 
 ## ADR-001 — Rego decisions, Python boundary, SQLite evidence, TypeScript UI
 
-Status: Accepted. Date:2026-10-22. Decider: Jason Stys (portfolio lab implementation).
+Status: Accepted. Date: 2026-10-22. Decider: Jason Stys (portfolio lab implementation).
 
 Context: express explainable versioned checks without inventing legal certainty or duplicating a full flight controller. Policy decisions need independent validation and traceable input/version identities. Host is a trusted single-organization workstation, not a public service.
 
@@ -22,7 +22,7 @@ Trade-offs/consequences: OPA must be installed once from the pinned official rel
 
 ## Data and complexity
 
-Maximum40rules,128claims,256KiBHTTPbody; five-second body/process deadlines; two native evaluations and two Argon2 verifications concurrently. Argon2id uses64MiB/time-cost3/parallelism1 per hash. At most10 active sessions per user, one-hour absolute expiry,20 sign-in attempts/minute per direct client and1000 attempt-client rows; expired attempts/sessions are cleaned by sign-in. UI history queries cap30reports/60audit rows. Schema enforces roles, FKs, unique review/evaluation and immutable historical rows. Parameterized SQL prevents imported values becoming queries.
+Maximum40 rules,128 claims,256KiBHTTPbody; five-second body/process deadlines; two native evaluations and two Argon2 verifications concurrently. Argon2id uses64 MiB/time-cost3/parallelism1 per hash. At most10 active sessions per user, one-hour absolute expiry,20 sign-in attempts/minute per direct client and 1000 attempt-client rows; expired attempts/sessions are cleaned by sign-in. UI history queries cap30 reports/60audit rows. Schema enforces roles, FKs, unique review/evaluation and immutable historical rows. Parameterized SQL prevents imported values becoming queries.
 
 Input policy validation is `O(R²)` withR≤40; conceptual evidence checking is `O(R×E)` withE≤128 (OPA may memoize/optimize repeated lookups). Persistence is indexed by user/id for history; output/storage per report is `O(R+E)`. Report export includes original policy and evidence, not just totals. Hashes detect accidental corruption; they are not externally signed attestations or protection against a malicious host administrator.
 

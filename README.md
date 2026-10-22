@@ -26,7 +26,7 @@ The four original examples are an infrastructure inspection, flood survey missin
 
 ## Run locally
 
-Prerequisites: Python3.12–3.14 and Node.js24. No Docker, API key, remote account or paid hosting required. Supported local service platforms are Windows x64, Linux x64/ARM64 and macOS x64/ARM64; CI checks Windows/Linux/macOS. Mobile browser rendering is tested, but no installed native/mobile package is provided.
+Prerequisites: Python 3.12–3.14 and Node.js24. No Docker, API key, remote account or paid hosting required. Supported local service platforms are Windows x64, Linux x64/ARM64 and macOS x64/ARM64; CI checks Windows/Linux/macOS. Mobile browser rendering is tested, but no installed native/mobile package is provided.
 
 Create/activate a normal Python environment:
 

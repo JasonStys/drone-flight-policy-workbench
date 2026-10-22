@@ -2,7 +2,7 @@
 
 Jason Stys: scoped interpretation of synthetic rules, not an aviation-law database.
 
-The baseline in `workbench/examples.py` is an original organizational training policy. Research references were checked2026-10-22UTC. They provide background, not evidence that an individual's real approval exists. The policy's validity900–2000 and operations' as-of1000 are a **synthetic exercise clock**, not dates of FAA approval or effective legal periods.
+The baseline in `workbench/examples.py` is an original organizational training policy. Research references were checked 2026-10-22UTC. They provide background, not evidence that an individual's real approval exists. The policy's validity900–2000 and operations' as-of1000 are a **synthetic exercise clock**, not dates of FAA approval or effective legal periods.
 
 Configured checks include evidence currentness for credentials/registration, a recorded Remote ID applicability review, official restrictions check and observation plan. Controlled-airspace authorization, privacy planning/retention, sensitive-site permission and emergency coordination depend on explicit condition claims. A false, current, consistent, attested condition is not-applicable only; unknown applicability remains a review hold. Emergency claims never bypass authorization/evidence.
 
