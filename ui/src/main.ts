@@ -60,6 +60,90 @@ let templates: Record<string, unknown> = {};
 let revision = 0;
 let policyDraftVersion = 0;
 let busy = false;
+interface Impact {
+  active_version: number;
+  before: Result;
+  after: Result;
+  notice: string;
+  checks: {
+    id: string;
+    before: { status: string; reason: string } | null;
+    after: { status: string; reason: string } | null;
+    configuration_changed: boolean;
+    decision_changed: boolean;
+  }[];
+}
+let impact: Impact | null = null;
+const previewButton = text(
+  "button",
+  "Preview draft impact",
+) as HTMLButtonElement;
+const impactDownload = text(
+  "button",
+  "Download draft comparison",
+) as HTMLButtonElement;
+impactDownload.disabled = true;
+const impactOutput = text("div", "");
+impactOutput.setAttribute("aria-label", "Unpublished policy impact");
+impactOutput.setAttribute("role", "region");
+el("publish").parentElement!.append(previewButton, impactDownload);
+el("policy").parentElement!.append(impactOutput);
+
+/** Clear non-persisted previews whenever inputs, session or saved version are refreshed. */
+function clearImpact(): void {
+  impact = null;
+  impactOutput.replaceChildren();
+  impactDownload.disabled = true;
+}
+previewButton.addEventListener(
+  "click",
+  () =>
+    void action(async () => {
+      clearImpact();
+      const requested = revision;
+      const result = (await api("/api/policies/preview", {
+        expected_version: policyDraftVersion,
+        policy: JSON.parse(el<HTMLTextAreaElement>("policy").value),
+        operation: JSON.parse(el<HTMLTextAreaElement>("operation").value),
+      })) as Impact;
+      if (revision !== requested) {
+        el("message").textContent =
+          "Draft changed during preview; compare again.";
+        return;
+      }
+      impact = result;
+      impactOutput.append(
+        text("h3", "Unpublished policy impact"),
+        text("p", result.notice),
+        text(
+          "p",
+          `Active v${result.active_version}: ${statusLabel(result.before.status)} → draft: ${statusLabel(result.after.status)}`,
+        ),
+      );
+      const list = text("ul", "");
+      for (const check of result.checks)
+        list.append(
+          text(
+            "li",
+            `${check.id}: ${check.before ? `${check.before.status}/${check.before.reason}` : "new check"} → ${check.after ? `${check.after.status}/${check.after.reason}` : "removed check"}${check.configuration_changed ? " · configuration changed" : ""}${check.decision_changed ? " · decision changed" : ""}`,
+          ),
+        );
+      impactOutput.append(list);
+      impactDownload.disabled = false;
+      el("message").textContent = "Draft preview complete. No records saved.";
+    }),
+);
+impactDownload.addEventListener("click", () => {
+  if (!impact) return;
+  const url = URL.createObjectURL(
+    new Blob([JSON.stringify(impact, null, 2)], { type: "application/json" }),
+  );
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `unpublished-policy-comparison-v${impact.active_version}.json`;
+  anchor.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
 /** All writes include the server-issued CSRF token; browser supplies the exact Origin. */
 async function api(path: string, body?: unknown): Promise<unknown> {
   const response = await fetch(path, {
@@ -80,6 +164,7 @@ async function api(path: string, body?: unknown): Promise<unknown> {
 }
 /** Never leave old evidence downloadable/reviewable after edits or failed work. */
 function invalidate(): void {
+  clearImpact();
   revision += 1;
   report = null;
   el<HTMLButtonElement>("export").disabled = true;
@@ -97,6 +182,7 @@ function invalidate(): void {
 async function action(task: () => Promise<void>): Promise<void> {
   if (busy) return;
   busy = true;
+  previewButton.disabled = true;
   el("message").textContent = "Working…";
   ["evaluate", "publish", "refresh", "logout", "acknowledge", "reject"].forEach(
     (id) => (el<HTMLButtonElement>(id).disabled = true),
@@ -113,6 +199,7 @@ async function action(task: () => Promise<void>): Promise<void> {
 }
 /** Restore controls according to current server identity and selected report; backend enforces again. */
 function permissions(): void {
+  previewButton.disabled = user?.role !== "admin";
   el<HTMLButtonElement>("evaluate").disabled = !user;
   el<HTMLButtonElement>("refresh").disabled = !user;
   el<HTMLButtonElement>("logout").disabled = !user;
@@ -131,6 +218,7 @@ function permissions(): void {
 }
 /** Refresh policy/history without conflating saved historical evidence and a new draft. */
 async function refresh(preserveDraft = false): Promise<void> {
+  clearImpact();
   workspace = (await api("/api/workspace")) as Workspace;
   el("policy-name").textContent = workspace.policy.name;
   el("version").textContent =

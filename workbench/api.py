@@ -12,7 +12,8 @@ from fastapi.staticfiles import StaticFiles
 from workbench import auth
 from workbench.engine import ROOT, EngineUnavailable, evaluate
 from workbench.examples import examples
-from workbench.models import Evaluate, Login, Publish, Review
+from workbench.impact import policy_impact
+from workbench.models import Evaluate, Login, Preview, Publish, Review
 from workbench.store import Store
 
 HEADERS = {
@@ -151,6 +152,21 @@ def create_app(database: Path, port=8881):
             raise HTTPException(503, str(error)) from error
         identifier = app.state.store.save(version, body.operation, result, user["name"])
         return {"id": identifier, "result": result}
+
+    @app.post("/api/policies/preview")
+    def preview(body: Preview, request: Request):
+        """Admin-only CSRF-protected non-publishing impact review; stale/concurrent versions fail closed."""
+        auth.authorize(request, "admin")
+        version, policy = app.state.store.snapshot()
+        if version != body.expected_version:
+            raise HTTPException(409, "Policy changed; refresh before previewing")
+        try:
+            result = policy_impact(policy, body.policy, body.operation)
+        except EngineUnavailable as error:
+            raise HTTPException(503, str(error)) from error
+        if app.state.store.snapshot()[0] != version:
+            raise HTTPException(409, "Policy changed during preview; refresh")
+        return {"active_version": version, **result}
 
     @app.get("/api/evaluations/{identifier}")
     def report(identifier: int, request: Request):

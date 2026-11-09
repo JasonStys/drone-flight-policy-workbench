@@ -16,6 +16,43 @@ async function login(page: Page, role: string): Promise<void> {
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(page.locator("#message")).toContainText("Signed in");
 }
+
+test("admin previews draft impact and downloads exact inputs without publishing; edits invalidate it", async ({
+  page,
+}) => {
+  await login(page, "admin");
+  const original = await (await page.request.get("/api/workspace")).json();
+  const draft = JSON.parse(await page.locator("#policy").inputValue());
+  draft.rules.find((rule: { id: string }) => rule.id === "wind").expected = 1;
+  await page.locator("#policy").fill(JSON.stringify(draft));
+  await page
+    .getByRole("button", { name: "Preview draft impact", exact: true })
+    .click();
+  await expect(page.getByLabel("Unpublished policy impact")).toContainText(
+    "UNPUBLISHED DRAFT PREVIEW",
+  );
+  await expect(page.getByLabel("Unpublished policy impact")).toContainText(
+    "wind:",
+  );
+  expect(await (await page.request.get("/api/workspace")).json()).toEqual(
+    original,
+  );
+  const pending = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Download draft comparison" }).click();
+  const path = await (await pending).path();
+  const result = JSON.parse(fs.readFileSync(path!, "utf8"));
+  expect(result.published).toBe(false);
+  expect(
+    result.draft_policy.rules.find((rule: { id: string }) => rule.id === "wind")
+      .expected,
+  ).toBe(1);
+  expect(result.input_hash).toMatch(/^[a-f0-9]{64}$/);
+  await page.locator("#policy").fill(JSON.stringify(original.policy));
+  await expect(page.getByLabel("Unpublished policy impact")).toBeEmpty();
+  await expect(
+    page.getByRole("button", { name: "Download draft comparison" }),
+  ).toBeDisabled();
+});
 test("operator evaluates all three statuses, exports and invalidates edits", async ({
   page,
 }) => {

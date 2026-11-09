@@ -6,6 +6,19 @@ Jason Stys: a source-linked, versioned **synthetic preflight and ethical-use rev
 
 ## What it does
 
+Administrators can **preview a draft policy's impact before publishing**. Edit the
+policy and operation evidence, then choose **Preview draft impact**. Real OPA
+evaluates both policies against the same supplied evidence and synthetic time.
+Every configured check shows its old/new decision, reason, configuration change,
+addition or removal. Download includes both exact policy inputs, the operation,
+their content hash and both results. No policy, evaluation, review or audit record
+is saved. Editing or refreshing clears the preview; stale/concurrent publication
+is rejected. Only administrators can request this CSRF-protected workflow.
+
+This previews an organizational evidence checklist, not permission to weaken law
+or authorize a flight. Publishing remains a separate explicit action and makes
+older sign-off eligibility stale. See [validation](docs/reports/PRACTICAL_WORKFLOWS_20261109.md).
+
 An operator submits a fictional proposed operation and structured claims about credentials, registration, Remote ID applicability, authorization evidence, restrictions, observation plans, privacy, site permission, emergency coordination and organizational limits. A real, checksum-verified **Open Policy Agent (OPA)** process evaluates trusted **Rego** against a bounded, data-only policy. Python validates types/units, stores immutable snapshots in SQLite, and enforces roles and independent review. TypeScript/HTML/CSS provides the browser interface.
 
 Each check returns **satisfied**, **blocked**, or **requires review**, with a precise reason and dated research reference. No result is flight permission, a complete legal assessment or a safe-to-fly determination. The app never contacts FAA authorization services or verifies that an actual credential/approval exists.

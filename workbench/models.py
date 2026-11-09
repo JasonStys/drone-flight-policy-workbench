@@ -189,6 +189,12 @@ class Publish(Contract):
     policy: Policy
 
 
+class Preview(Publish):
+    """Read-only draft impact at one explicit synthetic operation snapshot."""
+
+    operation: Operation
+
+
 class Review(Contract):
     """Independent human acknowledgement, not an external flight approval."""
 
