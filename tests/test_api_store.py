@@ -52,6 +52,48 @@ def evaluate(value, operation=None):
     )
 
 
+def test_admin_policy_preview_roles_csrf_no_mutation_stale_and_engine_failure(
+    application, monkeypatch
+):
+    """Read-only policy drafting cannot publish, create reports or bypass native availability."""
+    admin = client(application, "admin")
+    original = admin.get("/api/workspace").json()
+    body = {
+        "expected_version": original["version"],
+        "policy": original["policy"],
+        "operation": example_operation().model_dump(),
+    }
+    endpoint = "/api/policies/preview"
+    for name in ("operator", "reviewer"):
+        assert client(application, name).post(endpoint, json=body).status_code == 403
+    csrf = admin.headers.pop("X-CSRF-Token")
+    assert admin.post(endpoint, json=body).status_code == 403
+    admin.headers["X-CSRF-Token"] = csrf
+    response = admin.post(endpoint, json=body)
+    assert response.status_code == 200, response.text
+    assert response.json()["published"] is False
+    assert admin.get("/api/workspace").json() == original
+    assert admin.post(endpoint, json={**body, "expected_version": 99}).status_code == 409
+    assert admin.post(endpoint, json={**body, "extra": True}).status_code == 422
+
+    def unavailable(*_args):
+        """Native failure remains visible; no convenient satisfied fallback."""
+        raise api.EngineUnavailable("Synthetic unavailable engine")
+
+    monkeypatch.setattr(api, "policy_impact", unavailable)
+    assert admin.post(endpoint, json=body).status_code == 503
+    from workbench.impact import policy_impact
+
+    def concurrent(*args):
+        """A real active-policy publication during calculation invalidates preview."""
+        result = policy_impact(*args)
+        application.state.store.publish(1, example_policy(), "admin")
+        return result
+
+    monkeypatch.setattr(api, "policy_impact", concurrent)
+    assert admin.post(endpoint, json=body).status_code == 409
+
+
 def test_end_to_end_independent_acknowledgement(application):
     """A different designated reviewer can acknowledge current configured evidence, not grant permission."""
     operator = client(application)

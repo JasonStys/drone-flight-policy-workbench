@@ -10,7 +10,35 @@ from pydantic import ValidationError
 
 from workbench import engine
 from workbench.examples import example_operation, example_policy, examples
+from workbench.impact import policy_impact
 from workbench.models import Operation, Policy
+
+
+def test_unpublished_policy_comparison_uses_independent_oracle_and_retains_removed_checks():
+    """A stricter wind setting and renamed check are evidence changes, never publication."""
+    active, operation = example_policy(), example_operation()
+    original = active.model_dump_json(), operation.model_dump_json()
+    draft = active.model_copy(deep=True)
+    draft.rules[0].id = "credential-renamed"
+    next(rule for rule in draft.rules if rule.id == "wind").expected = 1.0
+    draft = Policy.model_validate(draft.model_dump())
+    result = policy_impact(active, draft, operation)
+    assert result["before"]["status"] == oracle(active, operation)["status"]
+    assert result["before"]["checks"] == oracle(active, operation)["checks"]
+    assert result["after"]["checks"] == oracle(draft, operation)["checks"]
+    rows = {row["id"]: row for row in result["checks"]}
+    assert rows["credential"]["after"] is None
+    assert rows["credential-renamed"]["before"] is None
+    assert rows["wind"]["configuration_changed"]
+    assert rows["wind"]["decision_changed"]
+    assert not rows["registration"]["configuration_changed"]
+    assert result["published"] is result["flight_authorization"] is False
+    assert (active.model_dump_json(), operation.model_dump_json()) == original
+    assert len(result["input_hash"]) == 64
+    same = policy_impact(active, active, operation)
+    assert not any(
+        row["decision_changed"] or row["configuration_changed"] for row in same["checks"]
+    )
 
 
 def oracle(policy, operation):
