@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "project": "drone-flight-policy-workbench",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "60a40fc4cbfe11cf0237dd7146e0b35cd660c32d",
+  "sourceUrl": "https://github.com/JasonStys/drone-flight-policy-workbench/tree/60a40fc4cbfe11cf0237dd7146e0b35cd660c32d",
+  "functionalEvidenceBaseline": "60a40fc4cbfe11cf0237dd7146e0b35cd660c32d",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42710476393,
+      "event": "push",
+      "headSha": "60a40fc4cbfe11cf0237dd7146e0b35cd660c32d",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/drone-flight-policy-workbench/actions/runs/42710476393"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42710476404,
+      "event": "push",
+      "headSha": "60a40fc4cbfe11cf0237dd7146e0b35cd660c32d",
+      "name": "Validation",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/drone-flight-policy-workbench/actions/runs/42710476404"
+    }
+  ],
+  "summary": "Compare active and draft policies using the same evidence and time, with exact native OPA inputs and failure states.",
+  "rationale": "Supports controlled policy review without publishing a draft or treating a comparison as flight authorization.",
+  "limitations": [
+    "Bounded organizational checklist using fictional self-reported evidence, not complete/current law or verified approval.",
+    "An unpublished comparison is not persisted human review and grants no flight or legal authorization.",
+    "No real aircraft, surveillance or external authorization service is controlled. Source/package validation does not supply a public native desktop release."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 45748,
+      "sha256": "81533085816e0ed6a7ce249df2f580c09161118bb4e2008ce143220163052c0a",
+      "sourceBaseline": "60a40fc4cbfe11cf0237dd7146e0b35cd660c32d",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 6,
+        "renderedPageSha256": {
+          "page-1.png": "d5ce980905c723e578c3b6873ea5e2bbe2700494ee5fa30cafcb068d79725bfa",
+          "page-2.png": "c2fc2a040900f08b029a8f4a4b99e289e3eaaffc4f34af9ee4ec2f11c3fb0e48",
+          "page-3.png": "316b1bfb03196c335f96ef4743152b1b97a88aa46c92523e467be0afa0be231c",
+          "page-4.png": "cae70ab8c0e5e0c318ecc67b4ada25260281eb492524ab40c69e0013a2005bee",
+          "page-5.png": "d1f21209bf04f741ef4181a7884840665f0b305d27585a033127cb064897fa45",
+          "page-6.png": "8e38a5e7e5b4d774b42776ff8752e2c6d73890e11f40e3a9ea1435fe14acdc62"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}

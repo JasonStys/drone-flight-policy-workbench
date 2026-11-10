@@ -28,7 +28,7 @@ The labeled comparison region is usable by assistive technology.
   existing independent review, hostile text, privacy and WCAG gates.
 - OPA format/check/test and coverage passed: authored Rego and tests 100% (90%
   gate unchanged). Maximum 40-rule/128-claim benchmark: 20 runs, median123.775ms,
-  max200.930ms including checksum/process/compile/protocol checks on this PC.
+  max 200.930ms including checksum/process/compile/protocol checks on this PC.
 - Exact locked Python advisory audit: no known vulnerabilities. Full live OSV
   npm inventory: 81/81 identities, zero findings. Ruff/format/navigation/hygiene
   checks and all existing acceptance thresholds remain required.
@@ -37,7 +37,7 @@ The unchanged Axe gate caught an invalid label on the initial output `div`; the
 output now has a named region role and the full suite passed. Sandbox vendor
 binary launch returned Windows DLL-relocation errors; identical fixed local OPA
 checks passed with scoped execution permission, without machine configuration
-changes. These are local results; parent publication CI remains separate.
+changes. These are local results; publication CI remains separately recorded.
 
 ## Limits
 
