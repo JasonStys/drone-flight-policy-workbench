@@ -4,13 +4,14 @@ import gzip
 import re
 
 from docs_index import ROOT, files
+from publication_text import public_text
 
 
 def main():
     """Check complete source headers, narrow secret signatures, binary-free source and fixed CI refs."""
     for path in files():
         relative = path.relative_to(ROOT).as_posix()
-        content = path.read_text(encoding="utf-8")
+        content = public_text(path, ROOT)
         if path.suffix in {".py", ".ts", ".mjs", ".rego", ".sql"}:
             assert "Jason Stys:" in content[:600] and "docs/SOURCE_MAP.md" in content[:600], (
                 relative

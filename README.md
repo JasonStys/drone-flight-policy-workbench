@@ -39,7 +39,7 @@ The four original examples are an infrastructure inspection, flood survey missin
 
 ## Run locally
 
-Prerequisites: Python 3.12–3.14 and Node.js24. No Docker, API key, remote account or paid hosting required. Supported local service platforms are Windows x64, Linux x64/ARM64 and macOS x64/ARM64; CI checks Windows/Linux/macOS. Mobile browser rendering is tested, but no installed native/mobile package is provided.
+Prerequisites: Python 3.12–3.14 and Node.js 24. No Docker, API key, remote account or paid hosting required. Supported local service platforms are Windows x64, Linux x64/ARM64 and macOS x64/ARM64; CI checks Windows/Linux/macOS. Mobile browser rendering is tested, but no installed native/mobile package is provided.
 
 Create/activate a normal Python environment:
 
@@ -84,7 +84,7 @@ npx playwright install chromium firefox webkit
 npm run test:e2e
 ```
 
-Build the UI and install OPA before Python HTTP tests. Linux browser dependencies may need Playwright's `--with-deps`. Browser tests create a unique ignored runtime database and random disposable staff credentials per run; they never use production accounts. Coverage gates are90% branch-aware Python,90% native Rego lines and100% presentation helpers. CI runs four OS/Python combinations, actual-service Chromium/Firefox/WebKit/mobile acceptance, and Python/TypeScript CodeQL. It uploads no Actions artifacts/caches. [Test plan](docs/TESTING.md), [validation report](docs/VALIDATION.md).
+Build the UI and install OPA before Python HTTP tests. Linux browser dependencies may need Playwright's `--with-deps`. Browser tests create a unique ignored runtime database and random disposable staff credentials per run; they never use production accounts. Coverage gates are 90% branch-aware Python, 90% native Rego lines and100% presentation helpers. CI runs four OS/Python combinations, actual-service Chromium/Firefox/WebKit/mobile acceptance, and Python/TypeScript CodeQL. It uploads no Actions artifacts/caches. [Test plan](docs/TESTING.md), [validation report](docs/VALIDATION.md).
 
 ## Important limitations
 
@@ -111,3 +111,9 @@ Local `.runtime/` databases, sessions, demo credentials, OPA binaries and export
 Every file is summarized in the [generated file catalog](docs/FILE_CATALOG.md). Source headers link to the [exact function/declaration/variable line map](docs/SOURCE_MAP.md); AST/lexical generation keeps navigation current instead of hard-coding stale header line numbers. Functions/classes and important policy sections have explanatory headers.
 
 Created by **Jason Stys** · [GitHub / Contact](https://github.com/JasonStys) · [LinkedIn](https://www.linkedin.com/in/jason-stys-31b30b351/). MIT original source; dependencies and OPA retain their own licenses.
+
+## Documentation editions
+
+Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
+
+[Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
