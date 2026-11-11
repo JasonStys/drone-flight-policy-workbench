@@ -28,3 +28,7 @@ The actual produced/extracted 0.2.1 Windows executable passed all four new refus
 ## Limits
 
 The same OS account/administrator is trusted. These admission and descriptor-identity checks do not establish a race-proof namespace against concurrent same-user file replacement; SQLite still uses pathname-based connections. This is an unsigned portable application, not a signed installer, clean-OS transaction or security certification. No existing application, profile, shortcut or published archive was replaced during source validation.
+
+## Postprocessed CodeQL test-oracle hygiene
+
+Delayed aggregate analysis identified a permissive default mode in the new test's replacement opener and two negative paths whose descriptor would not be closed if the production refusal regressed. The test helper now defaults to 0600; each negative oracle closes any unexpectedly returned descriptor in finally and still fails explicitly. The production opener already used 0600, so this is test-fixture/error-path hygiene, not a demonstrated runtime world-writable profile. No production schema, role, permission, admission decision or native deadline changed. Fresh exact-head workflow and aggregate/SARIF postprocessing checks are required; a successful scanner job alone is not clearance.
