@@ -124,3 +124,8 @@ Created by **Jason Stys** · [GitHub / Contact](https://github.com/JasonStys) ·
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+
+## Current installed application guide
+
+The published **0.2.1** application has a [four-page illustrated guide](docs/reports/windows-application-guide-0.2.1.docx) with actual installed screenshots, a worked user journey, immutable implementation excerpts and operating limits. Read its [installed validation report](docs/reports/installed-windows-0.2.1-2026-11-11.md) and [review manifest](docs/reports/windows-application-guide-0.2.1.json) for exact version and scope. Historical documentation remains available.

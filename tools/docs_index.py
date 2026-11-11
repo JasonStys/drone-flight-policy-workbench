@@ -32,6 +32,12 @@ EXCLUDE = {
     "playwright-report",
 }
 SPECIAL = {
+    "docs/reports/browser-host-setup-2026-11-11.md": "Observed browser setup failure, exact official CI image, real launch controls and unchanged product test boundaries.",
+    "tools/check_browser_host.mjs": "Actual exact-locked browser launch/input and missing executable proof; no validation bypass.",
+    "tools/check_browser_host.test.mjs": "Seven genuine child-process negatives for malformed requests and forbidden browser bypass variables.",
+    "docs/reports/windows-application-guide-0.2.1.docx": "Peer-reviewed current installed application Word guide with real screenshots and immutable source.",
+    "docs/reports/windows-application-guide-0.2.1.json": "Exact current document, image, source and reviewed-page identities.",
+    "docs/reports/installed-windows-0.2.1-2026-11-11.md": "Observed installed and same-profile upgrade results with operating limits.",
     "docs/DESKTOP.md": "Complete desktop owner setup, file/role workflows, build/acceptance and practical limits.",
     "docs/reports/DESKTOP_CANDIDATE_20261111.md": "Dated local actual native, browser, negative and dependency observations; hosted/publication status separate.",
     "requirements-package.in": "Pinned native packaging tool inputs.",
