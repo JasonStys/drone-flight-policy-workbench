@@ -4,6 +4,11 @@ Jason Stys: a source-linked, versioned **synthetic preflight and ethical-use rev
 
 [Validation](https://github.com/JasonStys/drone-flight-policy-workbench/actions/workflows/validate.yml) · [CodeQL](https://github.com/JasonStys/drone-flight-policy-workbench/actions/workflows/codeql.yml) · [Architecture](docs/ARCHITECTURE.md) · [Help](docs/OPERATIONS.md) · [Measured results](docs/VALIDATION.md)
 
+## Complete desktop application
+
+The 0.2.0 source candidate adds native owner setup/Open/Quit around the **same complete workbench**, with per-user locked profiles, named admin/operator/reviewer provisioning, coherent runtime identity and real OPA bundled. Load operation JSON and administrator-only policy JSON into editable drafts, preview changes without writes, download exact drafts and explicitly evaluate/publish/review through the original protected workflows. Old asynchronous file reads cannot replace later edits or a signed-out context. [Desktop usage and package limits](docs/DESKTOP.md) · [dated validation](docs/reports/DESKTOP_CANDIDATE_20261111.md).
+
+
 ## What it does
 
 Administrators can **preview a draft policy's impact before publishing**. Edit the

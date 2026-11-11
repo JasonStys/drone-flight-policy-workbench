@@ -32,6 +32,15 @@ EXCLUDE = {
     "playwright-report",
 }
 SPECIAL = {
+    "docs/DESKTOP.md": "Complete desktop owner setup, file/role workflows, build/acceptance and practical limits.",
+    "docs/reports/DESKTOP_CANDIDATE_20261111.md": "Dated local actual native, browser, negative and dependency observations; hosted/publication status separate.",
+    "requirements-package.in": "Pinned native packaging tool inputs.",
+    "requirements-package.lock": "Complete hash-locked native packaging dependencies.",
+    "licenses/PYTHON.txt": "Verbatim Python runtime terms retained with portable builds.",
+    "licenses/TCL-9.0.4.txt": "Verbatim exact upstream Tcl9.0.4 notice for the reviewed PSF framework.",
+    "licenses/TK-9.0.4.txt": "Verbatim exact upstream Tk9.0.4 notice for the reviewed PSF framework.",
+    "licenses/TK-9.0.5-pre-33904f039f48ed64.txt": "Verbatim exact PSF Python3.14.10 Mac prerelease Tk source notice.",
+    "licenses/OPA-1.21.3.txt": "Verbatim Apache2 notice from the exact bundled OPA1.21.3 source.",
     "docs/handbook.md": "Organized project usage, architecture, security and evidence navigation.",
     "docs/reports/documentation-refresh-2026-11-09.md": "Documentation integration checks, dated observation scope and limitations.",
     "docs/reports/project-guide.docx": "Reviewed source-bound Word guide with dated validation observations and practical limits.",

@@ -10,7 +10,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[1]))
 VERSION = "v1.21.3"
 RELEASES = {
     ("win32", "amd64"): (
@@ -39,7 +39,7 @@ RELEASES = {
 def binary():
     """Resolve only our fixed local binary and verify release identity before execution."""
     name, checksum = RELEASES[(sys.platform, platform.machine().lower())]
-    path = ROOT / ".runtime/opa" / name
+    path = ROOT / ("vendor/opa" if getattr(sys, "frozen", False) else ".runtime/opa") / name
     with path.open("rb") as source:
         actual = hashlib.file_digest(source, "sha256").hexdigest()
     if actual != checksum:

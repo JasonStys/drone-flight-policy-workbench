@@ -225,6 +225,8 @@ summary {
   cursor: pointer;
   font-weight: 650;
   color: #f0cfa9;
+  min-height: 32px;
+  padding-block: 6px;
 }
 details {
   border-top: 1px solid #445361;
