@@ -1,7 +1,7 @@
 # Jason Stys: strict lint and branch-aware package coverage gate; no advisory suppressions.
 [project]
 name = "drone-flight-policy-workbench"
-version = "0.2.0"
+version = "0.2.1"
 requires-python = ">=3.12"
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -541,6 +541,42 @@ Python/TypeScript ASTs index declarations, parameters and bindings. Rego lists r
 | `tests/test_portable_archive.py` | 114 | `output` |
 | `tests/test_portable_archive.py` | 120 | `path` |
 | `tests/test_portable_archive.py` | 121 | `output` |
+| `tests/test_profile_paths.py` | 12 | `files(directory)` |
+| `tests/test_profile_paths.py` | 16 | `path` |
+| `tests/test_profile_paths.py` | 21 | `junction_or_link(target, alias)` |
+| `tests/test_profile_paths.py` | 34 | `test_actual_directory_alias_refused_before_target_or_parent_creation(tmp_path, ancestor)` |
+| `tests/test_profile_paths.py` | 36 | `target` |
+| `tests/test_profile_paths.py` | 38 | `alias` |
+| `tests/test_profile_paths.py` | 40 | `chosen` |
+| `tests/test_profile_paths.py` | 47 | `test_frozen_program_trees_refused_before_mkdir(tmp_path, monkeypatch, location)` |
+| `tests/test_profile_paths.py` | 49 | `bundle` |
+| `tests/test_profile_paths.py` | 50 | `executable` |
+| `tests/test_profile_paths.py` | 51 | `internal` |
+| `tests/test_profile_paths.py` | 58 | `parent` |
+| `tests/test_profile_paths.py` | 63 | `chosen` |
+| `tests/test_profile_paths.py` | 64 | `before` |
+| `tests/test_profile_paths.py` | 68 | `outside` |
+| `tests/test_profile_paths.py` | 83 | `test_real_hardlinked_member_refused_before_any_other_mutation(tmp_path, name)` |
+| `tests/test_profile_paths.py` | 85 | `chosen` |
+| `tests/test_profile_paths.py` | 86 | `profile` |
+| `tests/test_profile_paths.py` | 88 | `destination` |
+| `tests/test_profile_paths.py` | 89 | `target` |
+| `tests/test_profile_paths.py` | 94 | `before` |
+| `tests/test_profile_paths.py` | 100 | `test_bad_directory_kind_and_parent_traversal_are_not_created(tmp_path)` |
+| `tests/test_profile_paths.py` | 102 | `ordinary` |
+| `tests/test_profile_paths.py` | 111 | `test_read_only_missing_member_never_creates_it(tmp_path)` |
+| `tests/test_profile_paths.py` | 113 | `path` |
+| `tests/test_profile_paths.py` | 115 | `descriptor` |
+| `tests/test_profile_paths.py` | 123 | `test_opened_identity_replacement_is_rejected_and_descriptor_closed(tmp_path, monkeypatch)` |
+| `tests/test_profile_paths.py` | 125 | `path` |
+| `tests/test_profile_paths.py` | 126 | `replacement` |
+| `tests/test_profile_paths.py` | 129 | `original_open` |
+| `tests/test_profile_paths.py` | 130 | `observed` |
+| `tests/test_profile_paths.py` | 132 | `replace_then_open(candidate, flags, mode)` |
+| `tests/test_profile_paths.py` | 134 | `descriptor` |
+| `tests/test_profile_paths.py` | 140 | `descriptor` |
+| `tests/test_profile_paths.py` | 150 | `test_existing_nonregular_identity_member_is_refused(tmp_path)` |
+| `tests/test_profile_paths.py` | 152 | `chosen` |
 | `tests/test_publication_text.py` | 15 | `edition(root, name, main, text)` |
 | `tests/test_publication_text.py` | 17 | `path` |
 | `tests/test_publication_text.py` | 19 | `package` |
@@ -820,6 +856,21 @@ Python/TypeScript ASTs index declarations, parameters and bindings. Rego lists r
 | `tools/portable_archive.py` | 186 | `source` |
 | `tools/portable_archive.py` | 188 | `bundle` |
 | `tools/portable_archive.py` | 190 | `path` |
+| `tools/profile_admission_smoke.py` | 10 | `snapshot(root)` |
+| `tools/profile_admission_smoke.py` | 14 | `path` |
+| `tools/profile_admission_smoke.py` | 19 | `verify(executable, output, environment)` |
+| `tools/profile_admission_smoke.py` | 21 | `fixture` |
+| `tools/profile_admission_smoke.py` | 23 | `before_program` |
+| `tools/profile_admission_smoke.py` | 24 | `selections` |
+| `tools/profile_admission_smoke.py` | 28 | `label` |
+| `tools/profile_admission_smoke.py` | 29 | `folder` |
+| `tools/profile_admission_smoke.py` | 31 | `target` |
+| `tools/profile_admission_smoke.py` | 33 | `alias` |
+| `tools/profile_admission_smoke.py` | 43 | `results` |
+| `tools/profile_admission_smoke.py` | 44 | `label` |
+| `tools/profile_admission_smoke.py` | 44 | `selected` |
+| `tools/profile_admission_smoke.py` | 45 | `result` |
+| `tools/profile_admission_smoke.py` | 64 | `label` |
 | `tools/publication_text.py` | 11 | `EDITION_ROOTS` |
 | `tools/publication_text.py` | 16 | `MAX_PACKAGE_BYTES` |
 | `tools/publication_text.py` | 17 | `MAX_EXPANDED_BYTES` |
@@ -901,30 +952,30 @@ Python/TypeScript ASTs index declarations, parameters and bindings. Rego lists r
 | `tools/smoke_app.py` | 123 | `line` |
 | `tools/smoke_app.py` | 126 | `actual_runtime` |
 | `tools/smoke_app.py` | 129 | `key` |
-| `tools/smoke_app.py` | 133 | `process` |
-| `tools/smoke_app.py` | 143 | `events` |
-| `tools/smoke_app.py` | 144 | `log` |
-| `tools/smoke_app.py` | 146 | `read_output()` |
-| `tools/smoke_app.py` | 149 | `line` |
-| `tools/smoke_app.py` | 155 | `reader` |
-| `tools/smoke_app.py` | 157 | `actual_exit` |
-| `tools/smoke_app.py` | 157 | `forced` |
-| `tools/smoke_app.py` | 157 | `passed` |
-| `tools/smoke_app.py` | 157 | `url` |
-| `tools/smoke_app.py` | 159 | `deadline` |
-| `tools/smoke_app.py` | 161 | `remaining` |
-| `tools/smoke_app.py` | 163 | `line` |
-| `tools/smoke_app.py` | 166 | `ready` |
-| `tools/smoke_app.py` | 173 | `url` |
-| `tools/smoke_app.py` | 174 | `code` |
-| `tools/smoke_app.py` | 174 | `raw` |
-| `tools/smoke_app.py` | 220 | `actual_exit` |
-| `tools/smoke_app.py` | 226 | `target` |
-| `tools/smoke_app.py` | 228 | `connection` |
-| `tools/smoke_app.py` | 234 | `reopened` |
-| `tools/smoke_app.py` | 243 | `line` |
-| `tools/smoke_app.py` | 245 | `passed` |
-| `tools/smoke_app.py` | 253 | `forced` |
+| `tools/smoke_app.py` | 136 | `process` |
+| `tools/smoke_app.py` | 146 | `events` |
+| `tools/smoke_app.py` | 147 | `log` |
+| `tools/smoke_app.py` | 149 | `read_output()` |
+| `tools/smoke_app.py` | 152 | `line` |
+| `tools/smoke_app.py` | 158 | `reader` |
+| `tools/smoke_app.py` | 160 | `actual_exit` |
+| `tools/smoke_app.py` | 160 | `forced` |
+| `tools/smoke_app.py` | 160 | `passed` |
+| `tools/smoke_app.py` | 160 | `url` |
+| `tools/smoke_app.py` | 162 | `deadline` |
+| `tools/smoke_app.py` | 164 | `remaining` |
+| `tools/smoke_app.py` | 166 | `line` |
+| `tools/smoke_app.py` | 169 | `ready` |
+| `tools/smoke_app.py` | 176 | `url` |
+| `tools/smoke_app.py` | 177 | `code` |
+| `tools/smoke_app.py` | 177 | `raw` |
+| `tools/smoke_app.py` | 223 | `actual_exit` |
+| `tools/smoke_app.py` | 229 | `target` |
+| `tools/smoke_app.py` | 231 | `connection` |
+| `tools/smoke_app.py` | 237 | `reopened` |
+| `tools/smoke_app.py` | 246 | `line` |
+| `tools/smoke_app.py` | 248 | `passed` |
+| `tools/smoke_app.py` | 256 | `forced` |
 | `workbench/__init__.py` | 3 | `__version__` |
 | `workbench/__main__.py` | 15 | `main()` |
 | `workbench/__main__.py` | 17 | `parser` |
@@ -1042,30 +1093,31 @@ Python/TypeScript ASTs index declarations, parameters and bindings. Rego lists r
 | `workbench/desktop_host.py` | 76 | `_run(self)` |
 | `workbench/desktop_host.py` | 89 | `start(self, timeout)` |
 | `workbench/desktop_host.py` | 97 | `stop(self, timeout)` |
-| `workbench/desktop_profile.py` | 18 | `PRODUCT` |
-| `workbench/desktop_profile.py` | 19 | `ROLES` |
-| `workbench/desktop_profile.py` | 20 | `FIRST_ROLE` |
-| `workbench/desktop_profile.py` | 23 | `default_directory()` |
-| `workbench/desktop_profile.py` | 26 | `base` |
-| `workbench/desktop_profile.py` | 28 | `base` |
-| `workbench/desktop_profile.py` | 30 | `base` |
-| `workbench/desktop_profile.py` | 36 | `read_marker(path)` |
-| `workbench/desktop_profile.py` | 38 | `descriptor` |
-| `workbench/desktop_profile.py` | 39 | `stream` |
-| `workbench/desktop_profile.py` | 40 | `info` |
-| `workbench/desktop_profile.py` | 43 | `raw` |
-| `workbench/desktop_profile.py` | 46 | `value` |
-| `workbench/desktop_profile.py` | 58 | `Profile(class)` |
-| `workbench/desktop_profile.py` | 61 | `__init__(self, directory)` |
-| `workbench/desktop_profile.py` | 67 | `marker` |
-| `workbench/desktop_profile.py` | 71 | `stream` |
-| `workbench/desktop_profile.py` | 75 | `namespace` |
-| `workbench/desktop_profile.py` | 77 | `lock` |
-| `workbench/desktop_profile.py` | 97 | `database` |
-| `workbench/desktop_profile.py` | 107 | `count_users(self)` |
-| `workbench/desktop_profile.py` | 109 | `database` |
-| `workbench/desktop_profile.py` | 112 | `create_account(self, username, password, confirmation, role)` |
-| `workbench/desktop_profile.py` | 122 | `close(self)` |
+| `workbench/desktop_profile.py` | 19 | `PRODUCT` |
+| `workbench/desktop_profile.py` | 20 | `ROLES` |
+| `workbench/desktop_profile.py` | 21 | `FIRST_ROLE` |
+| `workbench/desktop_profile.py` | 24 | `default_directory()` |
+| `workbench/desktop_profile.py` | 27 | `base` |
+| `workbench/desktop_profile.py` | 29 | `base` |
+| `workbench/desktop_profile.py` | 31 | `base` |
+| `workbench/desktop_profile.py` | 37 | `read_marker(path)` |
+| `workbench/desktop_profile.py` | 39 | `descriptor` |
+| `workbench/desktop_profile.py` | 40 | `stream` |
+| `workbench/desktop_profile.py` | 41 | `info` |
+| `workbench/desktop_profile.py` | 44 | `raw` |
+| `workbench/desktop_profile.py` | 47 | `value` |
+| `workbench/desktop_profile.py` | 59 | `Profile(class)` |
+| `workbench/desktop_profile.py` | 62 | `__init__(self, directory)` |
+| `workbench/desktop_profile.py` | 64 | `directory` |
+| `workbench/desktop_profile.py` | 68 | `marker` |
+| `workbench/desktop_profile.py` | 74 | `stream` |
+| `workbench/desktop_profile.py` | 78 | `namespace` |
+| `workbench/desktop_profile.py` | 80 | `lock` |
+| `workbench/desktop_profile.py` | 96 | `database` |
+| `workbench/desktop_profile.py` | 105 | `count_users(self)` |
+| `workbench/desktop_profile.py` | 107 | `database` |
+| `workbench/desktop_profile.py` | 110 | `create_account(self, username, password, confirmation, role)` |
+| `workbench/desktop_profile.py` | 120 | `close(self)` |
 | `workbench/engine.py` | 10 | `GATE` |
 | `workbench/engine.py` | 11 | `STATUSES` |
 | `workbench/engine.py` | 12 | `REASONS` |
@@ -1218,6 +1270,25 @@ Python/TypeScript ASTs index declarations, parameters and bindings. Rego lists r
 | `workbench/owner_window.py` | 200 | `open_browser(self)` |
 | `workbench/owner_window.py` | 205 | `quit(self)` |
 | `workbench/owner_window.py` | 215 | `stop(self)` |
+| `workbench/profile_paths.py` | 13 | `alias(info)` |
+| `workbench/profile_paths.py` | 20 | `member(path)` |
+| `workbench/profile_paths.py` | 23 | `info` |
+| `workbench/profile_paths.py` | 26 | `expected` |
+| `workbench/profile_paths.py` | 32 | `admitted_directory(path)` |
+| `workbench/profile_paths.py` | 34 | `path` |
+| `workbench/profile_paths.py` | 37 | `ancestor` |
+| `workbench/profile_paths.py` | 40 | `executable_root` |
+| `workbench/profile_paths.py` | 41 | `roots` |
+| `workbench/profile_paths.py` | 42 | `parent` |
+| `workbench/profile_paths.py` | 43 | `root` |
+| `workbench/profile_paths.py` | 48 | `workspace_members(directory)` |
+| `workbench/profile_paths.py` | 50 | `name` |
+| `workbench/profile_paths.py` | 63 | `open_member(path, flags)` |
+| `workbench/profile_paths.py` | 65 | `prior` |
+| `workbench/profile_paths.py` | 66 | `flags` |
+| `workbench/profile_paths.py` | 72 | `flags` |
+| `workbench/profile_paths.py` | 73 | `descriptor` |
+| `workbench/profile_paths.py` | 75 | `opened` |
 | `workbench/runtime_gui.py` | 7 | `inspect_tk(root, metadata)` |
 | `workbench/runtime_gui.py` | 9 | `versions` |
 | `workbench/runtime_gui.py` | 13 | `value` |
