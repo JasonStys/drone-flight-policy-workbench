@@ -1,7 +1,7 @@
 <!-- Jason Stys: full local policy application setup, genuine file workflows and native acceptance boundaries. -->
 # Desktop application
 
-The 0.2.0 source candidate packages the existing complete policy workbench, its browser UI, SQLite and the checksum-verified OPA 1.21.3 executable. It is an unsigned portable application, not a clean-install-tested installer. Downloads may be published only after exact-source hosted/native checks; a local dirty candidate is never a published-release identity.
+The 0.2.1 source candidate packages the existing complete policy workbench, its browser UI, SQLite and the checksum-verified OPA 1.21.3 executable. It is an unsigned portable application, not a clean-install-tested installer. Downloads may be published only after exact-source hosted/native checks; a local dirty candidate is never a published-release identity.
 
 ## Open and provision
 
@@ -26,10 +26,16 @@ The configured-checks table is a named keyboard-focusable scrolling region at na
 
 Use final Python 3.14.10 or a later reviewed 3.14 security patch, Node 24 and the committed hash locks. Install `requirements-dev.lock` and `requirements-package.lock`, install npm dependencies using the lock, explicitly run `python tools/fetch_opa.py`, then `npm run build`. Run `python tools/package_app.py --output-root .runtime/portable-UNIQUE`. The output must be new. CI refuses dirty source; `--allow-dirty` is only an honestly labelled local development candidate.
 
-The packager includes real Python/Tcl/Tk/package/OPA terms, a coherent 0.2.0 source/version/runtime identity and the verified native OPA binary. It safely extracts the produced archive into an unrelated temporary directory, launches that actual executable without Python/Node on its application PATH, checks frozen Tk identity and readiness nonce, then drives actual compiled-application import/preview/independent-review/export with Chromium. No source server fallback, preset report or mocked API is used. It checks foreign Host/Origin refusal, absence of anonymous setup, private cookie scope, 390 px keyboard table access and WCAG 2.2 AA, actual owner Quit 0, listener closure and account/report persistence. The portable checksum is emitted only after success.
+The packager includes real Python/Tcl/Tk/package/OPA terms, a coherent 0.2.1 source/version/runtime identity and the verified native OPA binary. It safely extracts the produced archive into an unrelated temporary directory, launches that actual executable without Python/Node on its application PATH, checks frozen Tk identity and readiness nonce, then drives actual compiled-application import/preview/independent-review/export with Chromium. No source server fallback, preset report or mocked API is used. It checks foreign Host/Origin refusal, absence of anonymous setup, private cookie scope, 390 px keyboard table access and WCAG 2.2 AA, actual owner Quit 0, listener closure and account/report persistence. The portable checksum is emitted only after success.
 
 Source tests separately use the real UI/service in Chromium, Firefox, WebKit and mobile WebKit. Native widget tests exercise minimum-window/footer controls; compiled console mode exercises the same owned service and completion-based stop. The frozen native button/default OS-browser/shortcut path is not claimed as an automated clean-install or manual desktop activation test. Linux/macOS native results require their own hosted jobs, not inference from Windows.
 
 ## Limits
 
 This is configured synthetic evidence review, not flight permission, a legal compliance decision, a safety verdict, airworthiness assurance, live-aircraft control or current airspace monitoring. Supplied claims and reviewer attestations may be wrong. OPA rules are trusted fixed source; users supply data-only JSON, not Rego or command plugins. SQLite and media-free local exports are not encrypted by this app. The OS administrator and designated organizational roles remain trusted. Cookie namespaces prevent accidental profile collision; localhost ports do not provide cookie confidentiality from hostile local services. Do not expose the loopback service with a LAN bind, proxy or tunnel. No Docker, autopilot, telemetry feed or paid service is used.
+
+## Profile path admission
+
+Choose an ordinary physical directory outside the extracted application. Existing ancestors must be real directories: symbolic links and Windows reparse points (including junctions) are refused. The identity, owner lock, SQLite database and any journal/WAL/SHM companions must be regular singly linked files; an unsafe member is refused before opening/writing the workspace. The frozen executable/internal directories and enclosing macOS .app bundle are never data locations. Ordinary existing identified profiles need no migration/reset; their accounts, roles and cookie namespace remain compatible.
+
+These are pre-mutation guards for accidental/trusted-owner path mistakes. The same OS account and administrators remain trusted; SQLite/pathname APIs do not provide an atomic namespace against a concurrent same-OS-user replacing entries after admission. Stop normally and retain the entire external profile. [Dated reproduction and validation](reports/PROFILE_PATH_ADMISSION_20261111.md).

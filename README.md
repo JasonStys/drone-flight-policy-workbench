@@ -6,8 +6,10 @@ Jason Stys: a source-linked, versioned **synthetic preflight and ethical-use rev
 
 ## Complete desktop application
 
-The 0.2.0 source candidate adds native owner setup/Open/Quit around the **same complete workbench**, with per-user locked profiles, named admin/operator/reviewer provisioning, coherent runtime identity and real OPA bundled. Load operation JSON and administrator-only policy JSON into editable drafts, preview changes without writes, download exact drafts and explicitly evaluate/publish/review through the original protected workflows. Old asynchronous file reads cannot replace later edits or a signed-out context. [Desktop usage and package limits](docs/DESKTOP.md) · [dated validation](docs/reports/DESKTOP_CANDIDATE_20261111.md).
+The 0.2.1 source candidate adds native owner setup/Open/Quit around the **same complete workbench**, with per-user locked profiles, named admin/operator/reviewer provisioning, coherent runtime identity and real OPA bundled. Load operation JSON and administrator-only policy JSON into editable drafts, preview changes without writes, download exact drafts and explicitly evaluate/publish/review through the original protected workflows. Old asynchronous file reads cannot replace later edits or a signed-out context. [Desktop usage and package limits](docs/DESKTOP.md) · [dated validation](docs/reports/DESKTOP_CANDIDATE_20261111.md).
 
+
+The 0.2.1 patch refuses profile paths through symbolic links, Windows junctions/reparse points, linked database/identity files or frozen application directories **before workspace writes**. Existing ordinary external profiles, accounts, roles and records retain their schema and cookie namespace. [Path-admission evidence and limits](docs/reports/PROFILE_PATH_ADMISSION_20261111.md).
 
 ## What it does
 

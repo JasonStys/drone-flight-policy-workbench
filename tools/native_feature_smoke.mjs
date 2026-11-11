@@ -87,7 +87,7 @@ async function download(name) {
 
 try {
   await login("admin");
-  await expect(page.locator("#application-version")).toContainText("v0.2.0");
+  await expect(page.locator("#application-version")).toContainText("v0.2.1");
   const original = await (
     await page.request.get(new URL("api/workspace", base).href)
   ).json();
