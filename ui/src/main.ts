@@ -1,5 +1,6 @@
 /** @file Jason Stys: private local policy workflow, safe DOM rendering and stale-request guards; lines: docs/SOURCE_MAP.md. */
 import "./style.css";
+import { objectFromText, readObjectFile } from "./import_file";
 import {
   type User,
   type Report,
@@ -37,9 +38,9 @@ root.innerHTML = `<header><a class="brand" href="#main">F / P <span>DRONE FLIGHT
 <p id="message" role="status" aria-live="polite">Sign in to review synthetic evidence.</p>
 <div id="workspace" hidden><div class="identity"><span id="identity"></span><div><button id="refresh" class="secondary">Refresh workspace</button><button id="logout" class="secondary">Sign out</button></div></div>
 <section class="summary panel"><div><p class="eyebrow">ACTIVE POLICY</p><h2 id="policy-name"></h2><p id="version"></p></div><div id="outcome"><h2>No current assessment</h2><p>Edit or load an operation, then evaluate.</p></div></section>
-<section class="columns"><div class="panel"><div class="panel-head"><h2>Operation evidence</h2><span class="tag">SYNTHETIC CLOCK / SI UNITS</span></div><label for="scenario">Example case</label><select id="scenario"><option value="inspection">Infrastructure inspection</option><option value="missing-approval">Flood survey — missing approval evidence</option><option value="privacy-hold">Sensitive inspection — privacy hold</option><option value="expired-record">Emergency exercise — expired record</option></select><label for="operation">Operation JSON</label><textarea id="operation" rows="15" spellcheck="false"></textarea><div class="buttons"><button id="evaluate">Evaluate evidence</button><button id="export" class="secondary" disabled>Export evidence</button></div><p class="muted">Claims marked attested are supplied by a person, not independently verified by this application. Unknown facts remain unknown.</p></div>
-<div class="panel"><div class="panel-head"><h2>Versioned policy</h2><span id="policy-role" class="tag"></span></div><label for="policy">Policy JSON</label><textarea id="policy" rows="15" spellcheck="false"></textarea><div class="buttons"><button id="publish" class="secondary">Publish policy version</button></div><p class="muted">Only administrators can publish. Previous versions and reports remain immutable. Publishing invalidates prior sign-off eligibility; it never rewrites history.</p><details><summary>How to interpret this workbench</summary><p>Use the four fictional examples or edit their bounded JSON. Time values are an explicit synthetic exercise clock, not current legal status. Source links are research references, not evidence that a specific approval exists.</p><p>Satisfied means the configured subset of evidence checks passed. Blocked means a configured check failed or evidence expired. Requires review means context or evidence is missing, conflicting, unknown, stale, future-dated or unattested. No status authorizes a flight.</p><p>Conditional checks also require current evidence. If a condition is unknown, the requirement remains under review. Administrators publish data-only rules; arbitrary Rego, scripts, files and URLs to fetch are not accepted.</p><p>Operators see their own reports. Designated reviewers and administrators can access organizational reports. Only a different reviewer can acknowledge current, satisfied evidence. Acknowledgement is a record of review, not a government approval.</p></details></div></section>
-<section class="panel evidence"><div class="panel-head"><h2>Check-by-check evidence</h2><span id="report-label">No report selected</span></div><p id="report-state" class="muted"></p><div class="table-scroll"><table><caption>Configured checks and source references</caption><thead><tr><th scope="col">Check</th><th scope="col">Outcome</th><th scope="col">Reason</th><th scope="col">Research reference</th></tr></thead><tbody id="checks"></tbody></table></div><div id="review-controls"><label for="review-note">Review note — short factual acknowledgement</label><input id="review-note" maxlength="80" value="Synthetic evidence reviewed"/><div class="buttons"><button id="acknowledge" disabled>Acknowledge evidence</button><button id="reject" class="secondary" disabled>Record rejection</button></div></div></section>
+<section class="columns"><div class="panel"><div class="panel-head"><h2>Operation evidence</h2><span class="tag">SYNTHETIC CLOCK / SI UNITS</span></div><label for="scenario">Example case</label><select id="scenario"><option value="inspection">Infrastructure inspection</option><option value="missing-approval">Flood survey — missing approval evidence</option><option value="privacy-hold">Sensitive inspection — privacy hold</option><option value="expired-record">Emergency exercise — expired record</option></select><label for="operation-file">Open operation JSON</label><input id="operation-file" type="file" accept=".json,application/json" /><p class="muted">File import edits only a draft. No evaluation or review history is imported.</p><label for="operation">Operation JSON</label><textarea id="operation" rows="15" spellcheck="false"></textarea><div class="buttons"><button id="evaluate">Evaluate evidence</button><button id="export" class="secondary" disabled>Export evidence</button></div><p class="muted">Claims marked attested are supplied by a person, not independently verified by this application. Unknown facts remain unknown.</p></div>
+<div class="panel"><div class="panel-head"><h2>Versioned policy</h2><span id="policy-role" class="tag"></span></div><label for="policy-file">Open policy JSON (administrator)</label><input id="policy-file" type="file" accept=".json,application/json" /><p class="muted">Review the draft and preview its impact before explicitly publishing.</p><label for="policy">Policy JSON</label><textarea id="policy" rows="15" spellcheck="false"></textarea><div class="buttons"><button id="publish" class="secondary">Publish policy version</button></div><p class="muted">Only administrators can publish. Previous versions and reports remain immutable. Publishing invalidates prior sign-off eligibility; it never rewrites history.</p><details><summary>How to interpret this workbench</summary><p>Use the four fictional examples or edit their bounded JSON. Time values are an explicit synthetic exercise clock, not current legal status. Source links are research references, not evidence that a specific approval exists.</p><p>Satisfied means the configured subset of evidence checks passed. Blocked means a configured check failed or evidence expired. Requires review means context or evidence is missing, conflicting, unknown, stale, future-dated or unattested. No status authorizes a flight.</p><p>Conditional checks also require current evidence. If a condition is unknown, the requirement remains under review. Administrators publish data-only rules; arbitrary Rego, scripts, files and URLs to fetch are not accepted.</p><p>Operators see their own reports. Designated reviewers and administrators can access organizational reports. Only a different reviewer can acknowledge current, satisfied evidence. Acknowledgement is a record of review, not a government approval.</p></details></div></section>
+<section class="panel evidence"><div class="panel-head"><h2>Check-by-check evidence</h2><span id="report-label">No report selected</span></div><p id="report-state" class="muted"></p><div class="table-scroll" role="region" aria-label="Configured evidence checks" tabindex="0"><table><caption>Configured checks and source references</caption><thead><tr><th scope="col">Check</th><th scope="col">Outcome</th><th scope="col">Reason</th><th scope="col">Research reference</th></tr></thead><tbody id="checks"></tbody></table></div><div id="review-controls"><label for="review-note">Review note — short factual acknowledgement</label><input id="review-note" maxlength="80" value="Synthetic evidence reviewed"/><div class="buttons"><button id="acknowledge" disabled>Acknowledge evidence</button><button id="reject" class="secondary" disabled>Record rejection</button></div></div></section>
 <section class="columns history"><div class="panel"><h2>Immutable evaluation history</h2><ul id="history"></ul></div><div class="panel"><h2>Organizational audit</h2><ul id="audit"></ul></div></section></div>
 <details class="panel help"><summary>Setup, privacy and help</summary><p>Build the UI, install the checksum-verified OPA runtime, initialize a local workspace, then provision accounts through the documented CLI. The source repository includes setup, API, test, security and recovery guides.</p><p>The service stays on loopback. Passwords are Argon2id hashes; opaque sessions are stored hashed. No analytics, remote scripts, ads, cloud AI or third-party runtime requests. SQLite and local exports must be protected by your workstation permissions; an OS administrator is trusted. Do not expose this lab on a network or enter sensitive operational data.</p></details></main>
 <footer><span>Designed & engineered by <strong>Jason Stys</strong></span><a href="https://github.com/JasonStys/drone-flight-policy-workbench" rel="noreferrer">Source & help</a><a href="https://github.com/JasonStys" rel="noreferrer">GitHub / Contact</a><a href="https://www.linkedin.com/in/jason-stys-31b30b351/" rel="noreferrer">LinkedIn</a></footer>`;
@@ -58,6 +59,7 @@ let workspace: Workspace | null = null;
 let report: Report | null = null;
 let templates: Record<string, unknown> = {};
 let revision = 0;
+let importEpoch = 0;
 let policyDraftVersion = 0;
 let busy = false;
 interface Impact {
@@ -164,6 +166,7 @@ async function api(path: string, body?: unknown): Promise<unknown> {
 }
 /** Never leave old evidence downloadable/reviewable after edits or failed work. */
 function invalidate(): void {
+  importEpoch++;
   clearImpact();
   revision += 1;
   report = null;
@@ -181,8 +184,11 @@ function invalidate(): void {
 /** One UI mutation at a time; explicit progress avoids old completion messages during work. */
 async function action(task: () => Promise<void>): Promise<void> {
   if (busy) return;
+  importEpoch++;
   busy = true;
   previewButton.disabled = true;
+  el<HTMLInputElement>("operation-file").disabled = true;
+  el<HTMLInputElement>("policy-file").disabled = true;
   el("message").textContent = "Working…";
   ["evaluate", "publish", "refresh", "logout", "acknowledge", "reject"].forEach(
     (id) => (el<HTMLButtonElement>(id).disabled = true),
@@ -199,6 +205,9 @@ async function action(task: () => Promise<void>): Promise<void> {
 }
 /** Restore controls according to current server identity and selected report; backend enforces again. */
 function permissions(): void {
+  el<HTMLInputElement>("operation-file").disabled = !user || busy;
+  el<HTMLInputElement>("policy-file").disabled =
+    !user || busy || user.role !== "admin";
   previewButton.disabled = user?.role !== "admin";
   el<HTMLButtonElement>("evaluate").disabled = !user;
   el<HTMLButtonElement>("refresh").disabled = !user;
@@ -218,6 +227,7 @@ function permissions(): void {
 }
 /** Refresh policy/history without conflating saved historical evidence and a new draft. */
 async function refresh(preserveDraft = false): Promise<void> {
+  importEpoch++;
   clearImpact();
   workspace = (await api("/api/workspace")) as Workspace;
   el("policy-name").textContent = workspace.policy.name;
@@ -421,23 +431,27 @@ for (const [id, decision] of [
   ["acknowledge", "acknowledge"],
   ["reject", "reject"],
 ])
-  el(id).addEventListener(
-    "click",
-    () =>
-      void action(async () => {
-        const identifier = report!.id;
-        const requested = revision;
-        await api(`/api/evaluations/${identifier}/review`, {
-          decision,
-          note: el<HTMLInputElement>("review-note").value,
-        });
-        const loaded = await loadReport(identifier, requested);
-        await refresh(true);
-        if (loaded)
-          el("message").textContent =
-            "Independent review recorded. This is not flight authorization.";
-      }),
-  );
+  el(id).addEventListener("click", () => {
+    const note = el<HTMLInputElement>("review-note").value;
+    if (!/^[A-Za-z0-9][A-Za-z0-9 _.-]{0,79}$/.test(note)) {
+      el("message").textContent =
+        "Review note: use 1-80 letters, numbers, spaces, underscores, hyphens or periods. Start with a letter or digit.";
+      return;
+    }
+    void action(async () => {
+      const identifier = report!.id;
+      const requested = revision;
+      await api(`/api/evaluations/${identifier}/review`, {
+        decision,
+        note,
+      });
+      const loaded = await loadReport(identifier, requested);
+      await refresh(true);
+      if (loaded)
+        el("message").textContent =
+          "Independent review recorded. This is not flight authorization.";
+    });
+  });
 el("logout").addEventListener(
   "click",
   () =>
@@ -467,6 +481,64 @@ el("export").addEventListener("click", () => {
   link.click();
   URL.revokeObjectURL(url);
 });
+
+/** Apply a bounded user-selected object only to its current authorized draft; never restore accounts/history/reviews. */
+async function importDraft(
+  kind: "operation" | "policy",
+  file: File,
+): Promise<void> {
+  if (!user || busy || (kind === "policy" && user.role !== "admin")) return;
+  invalidate();
+  const requested = importEpoch;
+  const identity = user;
+  el("message").textContent = "Reading JSON draft locally...";
+  try {
+    const object = await readObjectFile(file);
+    if (requested !== importEpoch || user !== identity || busy) return;
+    const candidate = object[kind] ?? object;
+    const validated = objectFromText(JSON.stringify(candidate));
+    el<HTMLTextAreaElement>(kind).value = JSON.stringify(validated, null, 2);
+    el("message").textContent =
+      "File loaded into draft only. Review fields and evaluate/preview before saving.";
+  } catch (error) {
+    if (requested === importEpoch && user === identity && !busy)
+      el("message").textContent =
+        `File not loaded; previous draft retained: ${error instanceof Error ? error.message : "read failed"}`;
+  }
+}
+for (const kind of ["operation", "policy"] as const) {
+  el<HTMLInputElement>(`${kind}-file`).addEventListener("change", (event) => {
+    const input = event.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = "";
+    if (file) void importDraft(kind, file);
+  });
+  const downloadDraft = text(
+    "button",
+    `Download ${kind} draft`,
+  ) as HTMLButtonElement;
+  el(kind).parentElement!.append(downloadDraft);
+  downloadDraft.addEventListener("click", () => {
+    if (!user || busy) return;
+    try {
+      const value = objectFromText(el<HTMLTextAreaElement>(kind).value);
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(value, null, 2)], {
+          type: "application/json",
+        }),
+      );
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `unpublished-${kind}-draft.json`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      el("message").textContent =
+        "Draft not downloaded: provide a bounded finite JSON object first.";
+    }
+  });
+}
+
 // Resume an existing local session without saving passwords/tokens in browser localStorage.
 void (async () => {
   try {
@@ -476,3 +548,9 @@ void (async () => {
     permissions();
   }
 })();
+
+/** Display the actual package release without changing domain policy/schema versions. */
+const releaseFooter = document.createElement("span");
+releaseFooter.id = "application-version";
+releaseFooter.textContent = `Application v${__APP_VERSION__} / `;
+document.querySelector("footer")?.prepend(releaseFooter);

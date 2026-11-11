@@ -1,6 +1,7 @@
 """Jason Stys: local authenticated, same-origin policy/evidence application. Lines: docs/SOURCE_MAP.md."""
 
 import asyncio
+import re
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -26,8 +27,10 @@ HEADERS = {
 }
 
 
-def create_app(database: Path, port=8881):
+def create_app(database: Path, port=8881, *, cookie_name="policy_session"):
     """One local organization, never a public multi-tenant or unauthenticated remote service."""
+    if not isinstance(cookie_name, str) or not re.fullmatch(r"[a-z][a-z0-9_]{2,63}", cookie_name):
+        raise ValueError("Invalid session cookie namespace")
     if not 1024 <= port <= 65535:
         raise ValueError("Port outside supported range")
     origin = f"http://127.0.0.1:{port}"
@@ -36,6 +39,7 @@ def create_app(database: Path, port=8881):
         title="Drone Flight Policy Workbench", docs_url=None, redoc_url=None, openapi_url=None
     )
     app.state.store = Store(database)
+    app.state.session_cookie_name = cookie_name
 
     @app.middleware("http")
     async def boundary(request: Request, call_next):
@@ -89,14 +93,22 @@ def create_app(database: Path, port=8881):
     @app.get("/healthz")
     def health():
         """Anonymous liveness only; no account, evidence or database paths."""
-        return {"status": "ok", "mode": "synthetic-local-review"}
+        return {
+            "status": "ok",
+            "mode": "synthetic-local-review",
+            **(
+                {"desktop": app.state.desktop_identity}
+                if hasattr(app.state, "desktop_identity")
+                else {}
+            ),
+        }
 
     @app.post("/api/login")
     def login(body: Login, request: Request):
         """Issue an opaque, HttpOnly, SameSite Strict local cookie; store only its hash."""
         token, user = auth.sign_in(request, body.username, body.password)
         response = JSONResponse(user)
-        response.set_cookie("policy_session", token, httponly=True, samesite="strict", max_age=3600)
+        response.set_cookie(cookie_name, token, httponly=True, samesite="strict", max_age=3600)
         return response
 
     @app.get("/api/me")
@@ -109,7 +121,7 @@ def create_app(database: Path, port=8881):
         """Revoke this session immediately; leave other users/sessions untouched."""
         auth.sign_out(request)
         response = JSONResponse({"signed_out": True})
-        response.delete_cookie("policy_session")
+        response.delete_cookie(cookie_name)
         return response
 
     @app.get("/api/workspace")

@@ -77,9 +77,14 @@ def sign_in(request: Request, username, password):
     return token, {"name": username, "role": user["role"], "csrf": csrf}
 
 
+def session_cookie_name(request: Request) -> str:
+    """Retain the source-service default; native profiles supply only a collision namespace."""
+    return getattr(request.app.state, "session_cookie_name", "policy_session")
+
+
 def identity(request: Request):
     """Resolve current server-side role and absolute session expiry; cookie contents have no roles."""
-    token = request.cookies.get("policy_session", "")
+    token = request.cookies.get(session_cookie_name(request), "")
     if not 20 <= len(token) <= 100:
         raise HTTPException(401, "Sign in to the private workspace")
     with request.app.state.store.connect() as db:
@@ -110,5 +115,5 @@ def sign_out(request: Request):
     with request.app.state.store.connect(True) as db:
         db.execute(
             "DELETE FROM sessions WHERE digest = ?",
-            (hashlib.sha256(request.cookies["policy_session"].encode()).hexdigest(),),
+            (hashlib.sha256(request.cookies[session_cookie_name(request)].encode()).hexdigest(),),
         )
