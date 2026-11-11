@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "repository": "drone-flight-policy-workbench",
+  "runtimeVersion": "0.2.1",
+  "runtimeSource": "177e0abf205e3496241719813d6d3432c8e7ba2c",
+  "createdAt": "2026-11-11T15:24:21.371Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-0.2.1.docx",
+  "sha256": "fc9464ad915412199d3755bee99d634f55e5a4f432b6a9750889151363e6f16b",
+  "screenshots": [
+    {
+      "file": "01-unpublished-policy-holds.png",
+      "sha256": "0b85a133d41bda5175a86a0029b7d07a8fefb78a1d4f1cf0d91abbe8b7064a0a",
+      "width": 628,
+      "height": 434,
+      "caption": "The installed policy app retains an unpublished draft and its original holds for review; no clearance or aircraft command is issued."
+    },
+    {
+      "file": "02-independent-evidence-review.png",
+      "sha256": "511df06dde1a48ed032130eef0f18068a2bd760d4bf2b1a65573f240e1bd1c49",
+      "width": 1368,
+      "height": 842,
+      "caption": "A separate staff reviewer inspects the retained policy evidence and its revision within the same full application."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "workbench/engine.py",
+      "first": 33,
+      "last": 53,
+      "sha256": "d7b3b3ca1be19849fbed0f16799a141a39b36b26212a9d8c3847bf1854cab5b1",
+      "url": "https://github.com/JasonStys/drone-flight-policy-workbench/blob/177e0abf205e3496241719813d6d3432c8e7ba2c/workbench/engine.py#L33"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Real native workflows",
+      "observed": "The complete original installed consumer passed domain inputs, real results, refusal, role boundaries and exact exports. Both launches exited normally.",
+      "result": "Passed"
+    },
+    {
+      "name": "Actual same-profile upgrade",
+      "observed": "Installed 0.2.0 created and edited the fixture; 0.2.1 reopened the same profile/password across all 3 roles, with retained records and normal exits.",
+      "result": "Passed"
+    },
+    {
+      "name": "Distribution identity",
+      "observed": "Both downloaded assets matched provider hashes; all 123 installed files stayed unchanged. Exact-main workflows and processed raw CodeQL passed.",
+      "result": "Verified"
+    },
+    {
+      "name": "PC scope",
+      "observed": "New per-user version folder and individual links verified. Synthetic profiles only; existing data and Docker were not used or changed.",
+      "result": "Verified"
+    }
+  ],
+  "visualReview": {
+    "approved": true,
+    "reviewer": "audit_apps",
+    "ooxmlSchema": "passed",
+    "pages": [
+      {
+        "page": 1,
+        "sha256": "3c11d8a85a75a939482845f545df930a0c222b97e0b023c7af972caf6703fae4"
+      },
+      {
+        "page": 2,
+        "sha256": "ff1688cd7894b327e6f11c8d75817a7ef45a9dd5acd04701b6ff5b141f4479dc"
+      },
+      {
+        "page": 3,
+        "sha256": "555831c57ecc69ab1467b42e21e374cc532e8b132180730c8938945fefb27655"
+      },
+      {
+        "page": 4,
+        "sha256": "7350e6bf443d498d44bcf6359c03585292c2c18a182e6237ec4813e41f34c9d6"
+      }
+    ],
+    "scope": "All four final pages individually viewed; actual installed synthetic screenshots and immutable-source snippets; earlier editions retained."
+  }
+}
