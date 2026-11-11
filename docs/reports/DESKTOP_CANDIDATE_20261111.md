@@ -7,7 +7,7 @@ Source baseline `ff6ec54e998d93e036c2ecf8777ed44ffab66c7c`; local 0.2.0 candidat
 
 | Check | Observed result |
 | --- | --- |
-| Full Python workbench suite | 178 passed; 95.52% branch-aware application coverage, unchanged 90% floor. The mandatory isolated notice wrapper below is one of these 178. |
+| Full Python workbench suite | 180 passed; 95.52% branch-aware application coverage, unchanged 90% floor. The mandatory isolated notice wrapper below is one of these 180. |
 | Actual Tcl/Tk notice cases |All 13 unchanged case assertions passed in one separate owned process, capture=sys, no retries/skips. Exact case IDs and source hashes are recorded privately in notices-contract.json; no notice-read failure becomes a fallback success. |
 | TypeScript file-import/presentation helpers | 15 passed; 100% statements/branches/functions/lines in that explicit helper denominator. Full UI coverage is not inferred. |
 | Original actual OPA gates |fmt/check passed; native Rego coverage 100% against 90% floor; original real OPA versus independent Python oracle tests retained. |
@@ -32,3 +32,9 @@ The measured 20-repeat 40-rule/128-claim real OPA workload had median 94.368ms a
 This is one trusted local organization with admin/operator/reviewer roles, not a hosted multi-tenant service or an encrypted database. The OS owner and authorized staff remain trusted. Supplied claims and attestations are not independently verified; satisfied evidence and a review never authorize flight. No aircraft, PX4, Docker, live telemetry or outside service was used. Existing synthetic cases remain optional inputs inside the real application.
 
 The new Windows local archive is an unsigned portable candidate, not an installer transaction or clean-machine installation proof. Actual source Tk widget tests and frozen Tk diagnostic/console Quit are compositional evidence; no frozen native button/default OS-browser/shortcut activation was manually verified here. Linux/macOS native checks and final exact-main CodeQL/Validation/Desktop workflows must pass before release. Historical Office publications and previous reports retain their own exact source/date and are unchanged.
+
+## First hosted native observation and diagnostic follow-up
+
+On exact initial candidate668a09d, original Validation and CodeQL passed; actual extracted Ubuntu and Windows desktop journeys passed. macOS reached the real UI but failed its first evaluation before Report1 was shown. The failed log is retained; this alone does not prove that collection changed OPA bytes or permissions.
+
+The follow-up adds an explicit post-collection vendor identity receipt. Only the already SHA-verified official standalone OPA is copied into its fixed absolute, canonical, non-linked owned build path, preserving original bytes and executable mode; the exact official pin is checked again. No rewritten helper receives a replacement trusted checksum. Two actual-file regression cases cover changed collected bytes/mode, changed official input and absent/relative/noncanonical destinations. Native browser failures now report only synthetic-workspace status paths, response codes and the existing safe UI message. First evaluation must return a real200 response before its UI assertions. All independent decision/review/export oracles, application process deadlines and native job budgets remain unchanged. macOS still requires an actual successful packaged GUI run after this change; it cannot be inferred from Windows.

@@ -11,6 +11,7 @@ import os
 import platform
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -28,6 +29,41 @@ else:
 ROOT = Path(__file__).resolve().parents[1]
 APPLICATION = "DroneFlightPolicyWorkbench"
 PRODUCT = "drone-flight-policy-workbench"
+
+
+def restore_vendor_opa(bundle: Path, source: Path, expected: str) -> dict:
+    """Restore only the exact verified upstream helper after collection; never bless rewritten Mach-O bytes."""
+    require(bundle.is_absolute() and source.is_absolute(), "Absolute owned OPA paths required")
+    require(
+        bundle.resolve(strict=True) == bundle
+        and source.resolve(strict=True) == source
+        and source.is_file()
+        and not source.is_symlink(),
+        "OPA source/build path is not canonical or contains a link",
+    )
+    require(re.fullmatch(r"opa_[a-z0-9_]+(?:\.exe)?", source.name), "Unexpected OPA filename")
+    require(re.fullmatch(r"[a-f0-9]{64}", expected), "Invalid official OPA digest")
+    target = bundle / "_internal/vendor/opa" / source.name
+    require(
+        target.parent.resolve().is_relative_to(bundle.resolve())
+        and target.is_file()
+        and not target.is_symlink(),
+        "Collected OPA path missing or not owned",
+    )
+    require(target.resolve(strict=True) == target, "Collected OPA path contains a link")
+    with source.open("rb") as stream:
+        original = hashlib.file_digest(stream, "sha256").hexdigest()
+    require(original == expected, "Official source OPA changed before copying")
+    with target.open("rb") as stream:
+        collected = hashlib.file_digest(stream, "sha256").hexdigest()
+    # PyInstaller may rewrite/sign collected Mach-O files. OPA's runtime contract
+    # remains the vendor checksum; keep its original standalone signature and mode.
+    shutil.copy2(source, target)
+    with target.open("rb") as stream:
+        restored = hashlib.file_digest(stream, "sha256").hexdigest()
+    require(restored == expected, "Packaged OPA differs from official source")
+    require(os.name == "nt" or bool(target.stat().st_mode & stat.S_IXUSR), "OPA is not executable")
+    return {"official_sha256": expected, "collected_sha256": collected, "packaged_sha256": restored}
 
 
 def build_python_supported(version: tuple[int, ...], releaselevel: str) -> bool:
@@ -104,9 +140,9 @@ def main(argv=None) -> int:
         "Freeze requires final Python 3.14.10 or a later 3.14 security patch",
     )
     if __package__:
-        from .fetch_opa import binary
+        from .fetch_opa import RELEASES, binary
     else:
-        from fetch_opa import binary
+        from fetch_opa import RELEASES, binary
 
     opa = binary()
     # This packaging gate runs the same thirteen real notice cases in a fresh
@@ -189,11 +225,18 @@ def main(argv=None) -> int:
         "Source identity changed during build",
     )
     bundle = build / APPLICATION
+    vendor_identity = restore_vendor_opa(
+        bundle, opa, RELEASES[(sys.platform, platform.machine().lower())][1]
+    )
+    print("Exact collected OPA identity: " + json.dumps(vendor_identity), flush=True)
     shutil.copyfile(identity_file, bundle / "RELEASE.json")
     suffix = ".zip" if sys.platform == "win32" else ".tar.gz"
     name = f"{PRODUCT}-v{version}-{metadata['platform']}-{metadata['machine']}"
     output = args.output_root.resolve()
     output.mkdir(parents=True, exist_ok=True)
+    (output / "vendor-opa.json").write_text(
+        json.dumps(vendor_identity, indent=2) + "\n", encoding="utf-8"
+    )
     shutil.copyfile(ROOT / ".runtime/notices-contract.json", output / "notices-contract.json")
     archive, sidecar = output / (name + suffix), output / (name + ".sha256")
     require(not archive.exists() and not sidecar.exists(), "Existing package evidence preserved")

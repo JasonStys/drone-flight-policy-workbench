@@ -16,7 +16,16 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 const errors = [],
-  external = [];
+  external = [],
+  statuses = [];
+let passed = false;
+page.on("response", (response) => {
+  if (response.url().startsWith(origin))
+    statuses.push({
+      path: new URL(response.url()).pathname,
+      status: response.status(),
+    });
+});
 page.on("pageerror", (error) => errors.push(error.message));
 page.on("request", (request) => {
   if (
@@ -99,9 +108,15 @@ try {
     await (await page.request.get(new URL("api/workspace", base).href)).json(),
     original,
   );
+  const evaluation = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).pathname === "/api/evaluations" &&
+      response.request().method() === "POST",
+  );
   await page
     .getByRole("button", { name: "Evaluate evidence", exact: true })
     .click();
+  assert.equal((await evaluation).status(), 200);
   await expect(page.locator("#report-label")).toContainText("Report 1");
   const held = await download("Export evidence");
   assert.equal(held.result.status, "requires_review");
@@ -282,7 +297,23 @@ try {
       2,
     ) + "\n",
   );
+  passed = true;
 } finally {
+  const diagnostics = {
+    passed,
+    statuses,
+    errors,
+    message: await page
+      .locator("#message")
+      .textContent()
+      .catch(() => "Page closed"),
+  };
+  await fs.writeFile(
+    path.join(output, "browser-diagnostics.json"),
+    JSON.stringify(diagnostics, null, 2),
+  );
+  if (!passed)
+    console.error("Native workflow diagnostics:", JSON.stringify(diagnostics));
   await context.close();
   await browser.close();
 }

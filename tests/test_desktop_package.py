@@ -1,12 +1,56 @@
 """Jason Stys: release version, source cleanliness and archive acceptance contracts. Lines: docs/SOURCE_MAP.md."""
 
+import hashlib
 import json
+import os
+import stat
 import subprocess
 import sys
 
 import pytest
 
 from tools import package_app
+
+
+def test_collected_vendor_bytes_and_mode_are_restored_without_reblessing_digest(tmp_path):
+    """A changed collected helper is replaced by the exact independently pinned original, never a new trusted hash."""
+    source = tmp_path / "opa_darwin_arm64_static"
+    source.write_bytes(b"controlled-original-vendor-fixture")
+    source.chmod(0o751)
+    expected = hashlib.sha256(source.read_bytes()).hexdigest()
+    bundle = tmp_path / "bundle"
+    target = bundle / "_internal/vendor/opa" / source.name
+    target.parent.mkdir(parents=True)
+    target.write_bytes(b"changed-by-collection")
+    result = package_app.restore_vendor_opa(bundle, source, expected)
+    assert result == {
+        "official_sha256": expected,
+        "collected_sha256": hashlib.sha256(b"changed-by-collection").hexdigest(),
+        "packaged_sha256": expected,
+    }
+    assert target.read_bytes() == source.read_bytes()
+    assert os.name == "nt" or stat.S_IMODE(target.stat().st_mode) == 0o751
+    source.write_bytes(b"unexpected-source-change")
+    before = target.read_bytes()
+    with pytest.raises(ValueError, match="source OPA changed"):
+        package_app.restore_vendor_opa(bundle, source, expected)
+    assert target.read_bytes() == before
+
+
+def test_missing_noncanonical_or_unowned_vendor_paths_cannot_be_created(tmp_path):
+    """Restore never creates an absent destination or accepts relative/aliased build or source paths."""
+    source = tmp_path / "opa_darwin_arm64_static"
+    source.write_bytes(b"fixed-vendor-fixture")
+    expected = hashlib.sha256(source.read_bytes()).hexdigest()
+    bundle = tmp_path / "bundle"
+    bundle.mkdir()
+    with pytest.raises(ValueError, match="missing or not owned"):
+        package_app.restore_vendor_opa(bundle, source, expected)
+    assert list(bundle.iterdir()) == []
+    with pytest.raises(ValueError, match="Absolute"):
+        package_app.restore_vendor_opa(bundle, source.relative_to(tmp_path), expected)
+    with pytest.raises(ValueError, match="canonical"):
+        package_app.restore_vendor_opa(bundle / ".." / "bundle", source, expected)
 
 
 @pytest.mark.parametrize(
